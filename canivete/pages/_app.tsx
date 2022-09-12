@@ -1,19 +1,23 @@
 import '../styles/globals.css'
 import MainContainer from '../components/MainContainer'
 import { useState, useEffect } from 'react'
-import { supabase } from '../utils/supabaseClient'
+import { supabase } from '../utils/supabase'
 import Auth from '../components/Auth'
+import {Session} from '@supabase/gotrue-js/src/lib/types'
 
-function MyApp({ Component, pageProps }) {  
-  const [session, setSession] = useState(null)
+
+function MyApp({ Component, pageProps } : any) {  
+  const [session, setSession] = useState<Session | null>(null)
   
   useEffect(() => {
     let mounted = true  
     async function getInitialSession() {
       const { data: { session }, } = await supabase.auth.getSession()
-    
+      console.log('session')
+      console.log(session)
       if (mounted) {
         if (session) {
+          console.log('set session')
           setSession(session)
         }    
       }
@@ -23,14 +27,16 @@ function MyApp({ Component, pageProps }) {
     getInitialSession()
     
     
-    const { subscription } = supabase.auth.onAuthStateChange(
+    const { subscription }:any = supabase.auth.onAuthStateChange(
       (_event, session) => {
+        console.log('set session1')
         setSession(session)
       }
     )
 
     return () => {
       mounted = false
+      console.log('set session3')
       subscription?.unsubscribe()
     }
   }, [])
@@ -38,10 +44,10 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       {!session ? (
-
-        <Auth>
-          <Component {...pageProps} />
-        </Auth>
+        <Auth />
+        // <Auth>
+        //   <Component {...pageProps} />
+        // </Auth>
       ) : (
 
         <MainContainer>
