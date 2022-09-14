@@ -13,11 +13,9 @@ function MyApp({ Component, pageProps } : any) {
     let mounted = true  
     async function getInitialSession() {
       const { data: { session }, } = await supabase.auth.getSession()
-      console.log('session')
-      console.log(session)
       if (mounted) {
         if (session) {
-          console.log('set session')
+          
           setSession(session)
         }    
       }
@@ -29,14 +27,14 @@ function MyApp({ Component, pageProps } : any) {
     
     const { subscription }:any = supabase.auth.onAuthStateChange(
       (_event, session) => {
-        console.log('set session1')
+        
         setSession(session)
       }
     )
 
     return () => {
       mounted = false
-      console.log('set session3')
+      
       subscription?.unsubscribe()
     }
   }, [])
@@ -44,10 +42,7 @@ function MyApp({ Component, pageProps } : any) {
   return (
     <>
       {!session ? (
-        <Auth />
-        // <Auth>
-        //   <Component {...pageProps} />
-        // </Auth>
+        <Auth />        
       ) : (
 
         <MainContainer>

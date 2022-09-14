@@ -3,25 +3,20 @@ import { supabase, getCurrentUser } from '../../utils/supabase'
 import Link from 'next/link'
 
 import styles from '../../styles/Trade.module.css'
+import { Itrade } from "../../abstracts/interfaces/trade"
 
 
+interface TradesObject extends Itrade {}
 class TradesObject {
-    id : number;
-    amount : number;
-    date_buy : string;  
-    date_sell : string;
-    in_order : number;
+   
+  readonly  total_value_buy : number;
+  readonly  total_value_sell : number;
+  readonly  gain : number;
+  readonly  percent_gain : number;
     par_descricao : string;
-    tax_buy : number;
-    tax_sell : number;
-    unitary_value_buy : number;
-    unitary_value_sell : number;
-    total_value_buy : number;
-    total_value_sell : number;
-    gain : number;
-    percent_gain : number;
 
     constructor(props : any) {
+       
         this.id = props.id,
         this.amount = props.amount, 
         this.date_buy = props.date_buy,  
@@ -32,6 +27,7 @@ class TradesObject {
         this.tax_sell= props. tax_sell,
         this.unitary_value_buy = props.unitary_value_buy,
         this.unitary_value_sell = props.unitary_value_sell,
+        this.user_id = props.user_id,
 
         this.total_value_buy = this.unitary_value_buy * this.amount,
         this.total_value_sell = this.unitary_value_sell * this.amount,
@@ -43,18 +39,16 @@ class TradesObject {
   }
 
 export default  function Trade (){
-    const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [trades, setTrades] = useState<TradesObject[]>([])
-
-  
-
+  const [filter, setFilter]= useState<any>({refresh : Boolean})
 
   useEffect(() => {
     async function handleTrades() {
         try {
           setLoading(true)
           const user = await getCurrentUser()
-          console.log(user.id)
+          
 
           //par( descricao ),  
           let { data  , error } = await supabase.from('trade')
@@ -67,16 +61,18 @@ export default  function Trade (){
                    tax_buy,
                    tax_sell,
                    unitary_value_buy,
-                   unitary_value_sell`)
+                   unitary_value_sell,
+                   user_id`)
            .eq('user_id', user.id)                       
-           .order('date_buy',{ascending: false})
-           console.log(data)
+           .order('id',{ascending: false})
+           
            let trades : Array<any> = []
 
            data!.forEach(function(o) {
             let t = new TradesObject(o)
             trades.push(t)
             }) 
+            console.log(trades)
             
             setTrades(trades) 
           if (error) {
@@ -88,10 +84,39 @@ export default  function Trade (){
       }
 
       handleTrades();
+      setLoading(false)
 
-  },[]) 
+  },[filter]) 
+
+
+  async function _handleRemoveTrade(par_id : any) {
+    try {
+      setLoading(true)
+      const user = await getCurrentUser()      
+      
+      let { data, error } = await supabase.from('trade').delete().eq('id', par_id).eq('user_id', user.id) 
+      console.log(data)  
+      if (error) {
+        
+        throw error
+      }
+    } catch (error : any) {
+      alert(error.message)
+    } finally {
+      setLoading(false)  
+      setFilter({refresh : true})
+
+          
+    }
+  }
   
   return (        
+    <>
+    
+    <Link href={`/trade/0`}>
+            <button>Criar Novo Trade</button>
+        
+        </Link>
    <table className={styles.table}>  
         <thead>
           <tr  className={styles.tr}>
@@ -139,21 +164,30 @@ export default  function Trade (){
 
                   <td className={styles.td}>{trade.date_buy}</td>
                   <td className={styles.td}>{trade.date_sell}</td>
-                  <td className={styles.td}>{trade.in_order}</td>
+                  <td className={styles.td}>{String(trade.in_order)}</td>
                   <td className={styles.td}>{trade.par_descricao}</td>
                   
                   
                   
                   
-                  <td className={styles.td}><Link href={`/trade/${trade.id}`}>
-                <a>Update</a>
-              </Link> </td>
+                  <td className={styles.td}>
+                    <Link href={`/trade/${trade.id}`}>
+                    <a>Update</a>
+                    </Link> 
+                    <button
+                      className="button primary block"
+                      onClick={() => _handleRemoveTrade(trade.id)}
+                      disabled={loading}
+                      >
+                      {loading ? 'Gravando ...' : 'Remover'}
+                    </button> 
+                  </td>
               </tr>            
           ))}
         </tbody>
     </table>  
 
-   
-
+            
+    </>
   )
 }

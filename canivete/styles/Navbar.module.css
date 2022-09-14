@@ -1,7 +1,7 @@
 .navbar { 
     display: flex;
     background-color: black;
-    padding: 20px 10px;
+    padding: 15px 10px;
 }
 
 .navbar a {
@@ -13,4 +13,8 @@
 
 .navbar a:hover {
     color: #999;
+}
+
+.header {
+    min-height: 10vh;
 }

@@ -7,13 +7,11 @@ export default function Home() {
     <>
       <Head>
         <title>Pagina Principal</title>
-        <meta name='keyworkds' content='Roupas, Calçados, Boné'></meta>
-        <meta name="description" content="Encontre a melhor roupa para você" ></meta>
-
+        <meta name='keyworkds' content='Contrle de trades, bitcoin, etherium'></meta>        
       </Head>
 
       <div >
-        <h1 className={styles.title}> Hello World Next jsS</h1>
+        <h1 className={styles.title}> Bem vindo ao controle de trades</h1>
         <Image src="/images/city.jpg" width="400px" height="300px" alt="Cidade a noite" />
       </div>
     </>
