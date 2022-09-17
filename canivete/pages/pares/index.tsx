@@ -1,20 +1,23 @@
 import { useState, useEffect } from "react"
 import { supabase, getCurrentUser } from '../../utils/supabase'
 import Link from 'next/link'
+import styles from '../../styles/Pares.module.css'
+import LoadingSpinner from "../../components/LoadingSpinner"
 
-import styles from '../../styles/Todos.module.css'
 
 export default  function Pares (){
   const [descricao, setDescricao] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [pares, setPares] = useState<any>([])
   const [filter, setFilter]= useState<any>({refresh : Boolean})
 
 
   useEffect(() => {
+    
     async function handlePares() {
         try {
           setLoading(true)
+       
           const user = await getCurrentUser()
           console.log(user.id)
           
@@ -30,7 +33,7 @@ export default  function Pares (){
           alert(error.message)
         } 
       }
-
+      
       handlePares();
       setLoading(false)
 
@@ -62,31 +65,34 @@ export default  function Pares (){
   
   return (        
     <>
-        
-        <h1>Lista de Pares de Cripto:</h1>
-        <Link href={`/pares/add`}>
-            <button>Criar Novo Par</button>
-        
-        </Link>
-      <ul className={styles.todolist}>
-        {pares.map((par : any) => (
-          <li key={par.id}>
-            {par.descricao}   
-            <Link href={`/pares/${par.id}`}>
-              <a>Update</a>
-            </Link>      
+      {loading ? (<LoadingSpinner />) : (
+          <div>
+                <h1>Lista de Pares de Cripto:</h1>
+            <Link href={`/pares/add`}>
+                <button>Criar Novo Par</button>
 
-            <button
-              className="button primary block"
-              onClick={() => _handleRemovePar(par.id)}
-              disabled={loading}
-              >
-              {loading ? 'Gravando ...' : 'Remover'}
-            </button>     
-          </li>
-          
-        ))}
-      </ul>
+                      </Link>
+                  <ul className={styles.list}>
+                  {pares.map((par : any) => (
+                    <li key={par.id}>
+                      {par.descricao}   
+                      <Link href={`/pares/${par.id}`}>
+                        <a>Update</a>
+                      </Link>      
+
+                      <a
+                        href="#"
+                        onClick={() => _handleRemovePar(par.id)}              
+                        >
+                        {loading ? 'Gravando ...' : 'Remover'}
+                      </a>     
+                    </li>
+                    
+                  ))}
+                  </ul>   
+            </div>
+      )}   
+       
     </>            
   )
 }

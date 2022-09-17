@@ -3,15 +3,27 @@ import { supabase, getCurrentUser } from '../../utils/supabase'
 import { useRouter } from "next/router";
 import { Itrade } from "../../abstracts/interfaces/trade"
 import moment from 'moment';
+import styles from '../../styles/Trade.module.css'
+
 
 export default  function Edit (){  
   const router = useRouter();
   const { id } = router.query;  
+  let trade_inicial : Itrade = {
+                        amount : 0,
+                        user_id :'0',
+                        date_buy : '',
+                        date_sell : undefined,
+                        in_order : true,
+                        par_id : 0,
+                        tax_buy : 0,
+                        tax_sell : 0,
+                        unitary_value_buy : 0,
+                        unitary_value_sell : 0}
 
-  const [in_order, setInorder] = useState(false)
   const [loading, setLoading] = useState(false)
   const [pares, setPares] = useState<any>([])
-  const [trade, setTrade] = useState<Itrade>()
+  const [trade, setTrade] = useState<Itrade>(trade_inicial)
 
 
   useEffect(() => {
@@ -39,13 +51,7 @@ export default  function Edit (){
           setTrade({
             ...trade!,
             user_id : user.id,
-            date_buy : moment(now).format('YYYY-MM-DD'),
-            in_order : true,
-            par_id : 1,
-            tax_buy : 0,
-            tax_sell : 0,
-            unitary_value_buy : 0,
-            unitary_value_sell : 0,              
+            date_buy : moment(now).format('YYYY-MM-DD'),                                        
           });
         }else{
           const { data } = await supabase
@@ -54,6 +60,7 @@ export default  function Edit (){
           .filter("id", "eq", id)
           .single();
           setTrade(data);
+          console.log(data)
         }                  
       };
 
@@ -68,6 +75,7 @@ export default  function Edit (){
                   
       setLoading(true)  
       console.log(trade)     
+      
       if(id=='0'){
         let { error } = await supabase.from('trade').insert(trade);     
         if (error) {
@@ -107,114 +115,125 @@ export default  function Edit (){
 
   return (        
     <>
-        
-        <div>          
-            <select id='par_id' value={trade?.par_id} onChange={handleOnChange}>
-            {pares.map((par : any) => ( 
-                <option key={par.id}  value={par.id}>{par.descricao}</option>
+        <div className={styles.box}>
+          <div  className={styles.group}>      
+              <label htmlFor="website">Par</label>    
+              <select className={styles.fields} id='par_id' value={trade?.par_id} onChange={handleOnChange}>
+              <option key={0}  value={0}>{'----'}</option>
+              {pares.map((par : any) => ( 
+                  <option key={par.id}  value={par.id}>{par.descricao}</option>
 
-            ))}
-                
-            </select>
-                
-        </div>
+              ))}                
+              </select>                
+          </div>
 
-        <div>        
-            <label htmlFor="website">Quantidade</label>
-            <input
-            id="amount"
-            type="number"
-            step="any"
-            value={trade?.amount}        
-            onChange={handleOnChange}        
-            />    
-        </div>
+          <div className={styles.group}>        
+              <label htmlFor="website">Quantidade</label>
+              <input 
+              className={styles.fields}
+              id="amount"
+              type="number"
+              step="any"
+              value={trade?.amount}        
+              onChange={handleOnChange}        
+              />    
+          </div>
 
-        <div>
-            <label htmlFor="website">Data Compra</label>
-            <input
-            id="date_buy"
-            type="date"
-            value={trade?.date_buy}        
-            onChange={handleOnChange}        
-            />    
-        </div>
+          <div className={styles.group}>
+              <label htmlFor="website">Data Compra</label>
+              <input
+              className={styles.fields}
+              id="date_buy"
+              type="date"
+              value={trade?.date_buy}        
+              onChange={handleOnChange}        
+              />    
+          </div>
 
-        <div>
-            <label htmlFor="website">Data venda</label>
-            <input
-            id="date_sell"
-            type="date"
-            value={trade?.date_sell}        
-            onChange={handleOnChange}        
-            />    
-        </div>
+          <div className={styles.group}> 
+              <label htmlFor="website">Data venda</label>
+              <input
+              className={styles.fields}
+              id="date_sell"
+              type="date"
+              value={trade?.date_sell}        
+              onChange={handleOnChange}        
+              />    
+          </div>
 
-        <div>
-            <label htmlFor="website">Em ordem</label>
-            <input
-            id="in_order"
-            type="checkbox"            
-            checked={trade?.in_order}
-            onChange={handleOnChangeInOrder}        
-            />    
-        </div>    
+            
 
-        <div>
-            <label htmlFor="website">Taxa Compra</label>
-            <input
-            id="tax_buy"
-            type="number"
-            step="any"
-            value={trade?.tax_buy}        
-            onChange={handleOnChange}        
-            />    
-        </div>
+          <div className={styles.group}>
+              <label htmlFor="website">Taxa Compra</label>
+              <input
+              className={styles.fields}
+              id="tax_buy"
+              type="number"
+              step="any"
+              value={trade?.tax_buy}        
+              onChange={handleOnChange}        
+              />    
+          </div >
 
 
-        <div>
-            <label htmlFor="website">Taxa venda</label>
-            <input
-            id="tax_sell"
-            type="number"
-            step="any"
-            value={trade?.tax_sell}        
-            onChange={handleOnChange}        
-            />    
-        </div>
+          <div className={styles.group}>
+              <label htmlFor="website">Taxa venda</label>
+              <input
+              className={styles.fields}
+              id="tax_sell"
+              type="number"
+              step="any"
+              value={trade?.tax_sell}        
+              onChange={handleOnChange}        
+              />    
+          </div >
 
 
-        <div>
-            <label htmlFor="website">Valor unitario do ativo Compra</label>
-            <input
-            id="unitary_value_buy"
-            type="number"
-            step="any"
-            value={trade?.unitary_value_buy}        
-            onChange={handleOnChange}        
-            />    
-        </div>
+          <div className={styles.group}>
+              <label htmlFor="website">Valor unitario do ativo Compra</label>
+              <input
+              className={styles.fields}
+              id="unitary_value_buy"
+              type="number"
+              step="any"
+              value={trade?.unitary_value_buy}        
+              onChange={handleOnChange}        
+              />    
+          </div>
 
 
-        <div>
-            <label htmlFor="website">Valor Unitario do ativo na venda</label>
-            <input
-            id="unitary_value_sell"
-            type="number"
-            step="any"
-            value={trade?.unitary_value_sell}        
-            onChange={handleOnChange}        
-            />    
-        </div>
+          <div className={styles.group}>
+              <label htmlFor="website">Valor Unitario do ativo na venda</label>
+              <input
+              className={styles.fields}
+              id="unitary_value_sell"
+              type="number"
+              step="any"
+              value={trade?.unitary_value_sell}        
+              onChange={handleOnChange}        
+              />    
+          </div>  
 
-        <div>
-            <button
-            className="button primary block"
-            onClick={() => _handleAddOrInsertTrade()}
-            disabled={loading}
-            >
-            {loading ? 'Gravando ...' : 'Salvar'}
-            </button>
+          <div className={styles.check}>
+              <label htmlFor="website">Em ordem</label>
+              <input
+             
+              id="in_order"
+              type="checkbox"            
+              checked={trade?.in_order}
+              onChange={handleOnChangeInOrder}        
+              />    
+          </div>  
+
+          <div >
+              <button   
+              className={styles.save}           
+              onClick={() => _handleAddOrInsertTrade()}
+              disabled={loading}
+              >
+              {loading ? 'Gravando ...' : 'Salvar'}
+              </button>
+          </div>
         </div>
     </>            
   )

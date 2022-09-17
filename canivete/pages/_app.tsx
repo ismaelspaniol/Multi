@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import '../styles/spinner.css'
 import MainContainer from '../components/MainContainer'
 import { useState, useEffect } from 'react'
 import { supabase } from '../utils/supabase'

@@ -2,7 +2,7 @@ export interface Itrade {
     id?:string;
     amount: number;
     date_buy: string;
-    date_sell:string;
+    date_sell:string | undefined;
     in_order:boolean;
     par_id:number;
     tax_buy:number;
