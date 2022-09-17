@@ -151,28 +151,31 @@ export default  function Trade (){
 
 
   async function _handleRemoveTrade(par_id : any) {
-    try {
-      setLoading(true)
-      const user = await getCurrentUser()      
+   
       
-      let { data, error } = await supabase.from('trade').delete().eq('id', par_id).eq('user_id', user.id) 
-      console.log(data)  
-      if (error) {
-        
-        throw error
-      }
-    } catch (error : any) {
-      alert(error.message)
-    } finally {
-      setLoading(false)        
+      if (confirm("Deseja realmente remover!")==true)
+        {
+          try {
+              setLoading(true)
+              const user = await getCurrentUser()      
+              
+              let { data, error } = await supabase.from('trade').delete().eq('id', par_id).eq('user_id', user.id) 
+              console.log(data)  
+              if (error) {
+                
+                throw error
+              }
+            } catch (error : any) {
+              alert(error.message)
+            } finally {
+              setLoading(false)        
 
-      setFilter({
-        ...filter!,
-        refresh: true,
-      });
-
-          
-    }
+              setFilter({
+                ...filter!,
+                refresh: true,
+              });          
+          }        
+        }            
   }
 
   const handleOnChangeInOrder = (e :any) => {     
@@ -247,7 +250,7 @@ export default  function Trade (){
                             <Link href={`/trade/${trade.id}`}>
                               <a>Update</a>
                             </Link> 
-                            <a onClick={() => _handleRemoveTrade(trade.id)}>
+                            <a href="#" onClick={() => _handleRemoveTrade(trade.id)}>
                               {loading ? 'Gravando ...' : 'Remover'}
                             </a> 
                           </td>
