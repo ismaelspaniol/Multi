@@ -99,7 +99,7 @@ export default  function Trade (){
           if (filter.in_order !== undefined){
             filtro.in_order = filter.in_order       
           }
-          filtro.date_sell = null             
+          // filtro.date_sell = null             
           
           //par( descricao ),  
           let { data  , error } = await supabase.from('trade')
@@ -215,18 +215,13 @@ export default  function Trade (){
                   <thead>
                     <tr  className={styles.tr}>
                       <th className={styles.th}>Quantidade</th>
-                      <th className={styles.th}>Valor Compra</th>
-                      <th className={styles.th}>Taxa Compra</th>
-                      <th className={styles.th}>Total Compra</th>
-
-                      <th className={styles.th}>Valor Venda</th>
-                      <th className={styles.th}>Taxa Venda</th>
-                      <th className={styles.th}>Total Venda</th>
+                      <th className={styles.th}>Valor Compra</th>                                            
+                      <th className={styles.th}>Valor Venda</th>                                            
                       <th className={styles.th}>Ganho</th>
                       <th className={styles.th}>Percentual de Ganho</th>                      
                       <th className={styles.th}>Data Compra</th>
                       <th className={styles.th}>Data Venda</th>
-                      <th className={styles.th}>Em Ordem</th>
+                      
                       <th className={styles.th}>Par</th>                                                                                        
                       <th className={styles.th}>Update</th>
                     </tr>
@@ -238,16 +233,14 @@ export default  function Trade (){
                         <tr key={trade.id} className={styles.tr}>
                           <td className={styles.td}>{trade.amount}</td>
                           <td className={styles.td}>{trade.unitary_value_buy}</td>
-                          <td className={styles.td}>{trade.tax_buy}</td>
-                          <td className={styles.td}>{trade.total_value_buy}</td>                        
+                                                    
                           <td className={styles.td}>{trade.unitary_value_sell}</td>
-                          <td className={styles.td}>{trade.tax_sell}</td>
-                          <td className={styles.td}>{trade.total_value_sell}</td>
+                          
+                          
                           <td className={styles.td}>{trade.gain}</td>
                           <td className={styles.td}>{trade.percent_gain}</td>
                           <td className={styles.td}>{trade.date_buy}</td>
-                          <td className={styles.td}>{trade.date_sell}</td>
-                          <td className={styles.td}>{String(trade.in_order)}</td>
+                          <td className={styles.td}>{trade.date_sell}</td>                          
                           <td className={styles.td}>{trade.par_descricao}</td>
                                                                                                                                   
                           <td className={styles.td}>
