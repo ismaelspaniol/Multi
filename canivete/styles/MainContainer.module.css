@@ -2,7 +2,10 @@
     min-height: 80vh;    
     padding: 50px;
     text-align: center; 
-    padding-bottom:60px;  
+    padding-bottom:10%;
+    
+    column-count: 1;
+    /* column-width: 100em; */
     
 }
 

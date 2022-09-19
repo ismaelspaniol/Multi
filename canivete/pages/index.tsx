@@ -3,9 +3,11 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
 
+
 export default function Home() {
   return (
     <>
+
     
       <Head>
         <title>Pagina Principal</title>
@@ -13,7 +15,6 @@ export default function Home() {
       </Head>
 
       <div >
-        
         <h1 className={styles.title}> Bem vindo ao controle de trades</h1>
         <Image src="/city.jpg" width="400px" height="300px" alt="Cidade a noite" />          
         

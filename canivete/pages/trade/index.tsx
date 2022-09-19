@@ -6,12 +6,20 @@ import styles from '../../styles/Trade.module.css'
 import { Itrade } from "../../abstracts/interfaces/trade"
 import LoadingSpinner from "../../components/LoadingSpinner"
 
+import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import Button from '@mui/material/Button';
 
+import { GridApi } from '@mui/x-data-grid-pro';
+import { GridCellParams } from '@mui/x-data-grid-pro';
+// import { GridApi } from '@mui/x-data-grid-premium';
 interface IFilter {
   refresh : boolean,
   par_id : number,
   in_order : boolean | undefined
 }
+
+
+
 
 interface LooseObject {
   [key: string]: any
@@ -120,7 +128,7 @@ export default  function Trade (){
            
            let trades : Array<any> = []
 
-           data!.forEach(function(o) {
+           await data!.forEach(function(o) {
             let t = new TradesObject(o)
             trades.push(t)
             }) 
@@ -184,83 +192,81 @@ export default  function Trade (){
       [e.target.id]: !filter?.in_order,
     });
   };
+
+
+  const columns: GridColDef[] = [    
+    { field: 'amount', headerName: 'Quantidade', width: 90, type: 'number' },
+    { field: 'unitary_value_buy', headerName: 'Vlr Compra', width: 90, type: 'number' },
+    { field: 'unitary_value_sell', headerName: 'Vlr Venda', width: 85, type: 'number' },
+    { field: 'gain', headerName: 'Ganho', width: 70, type: 'number' },
+    { field: 'percent_gain', headerName: '% Ganho', width: 70, type: 'number' },
+    { field: 'date_buy', headerName: 'Compra', width: 100, type: 'date' },
+    { field: 'date_sell', headerName: 'Venda', width: 100, type: 'date' },
+    { field: 'par_descricao', headerName: 'Moeda', width: 70, type: 'date' },
+    {
+      field: "actionUpdate",
+      width: 60,
+      headerName: "",
+      sortable: false,
+      renderCell: (params)  => {              
+        return <Link href={`/trade/${params.getValue(params.id, 'id')}`}>
+        <a>Update</a>
+      </Link> 
+      }
+    },      
+  
+    {
+      field: "actionRemover",
+      headerName: "",
+      width: 65,
+      sortable: false,
+      renderCell: (params : GridCellParams)  => {      
+        return  <a href="#" onClick={() => _handleRemoveTrade(params.getValue(params.id, 'id'))}>
+        {loading ? 'Gravando ...' : 'Remover'}
+      </a> 
+      }
+    },      
+  ];
   
   return (        
     <>
-     {loading ? (<LoadingSpinner />) : (
-          <div className={styles.container}>
-            <div className={styles.novo}>
-              <Link href={`/trade/0`}>
-                <button className={styles.bottonnovo}>Criar Novo Trade</button>                      
-              </Link>
-              <select id='par_id' value={filter?.par_id} onChange={handleOnChange}>
-              <option key={0}  value={0}>{'----'}</option>
-              {pares.map((par : any) => ( 
-                  <option key={par.id}  value={par.id}>{par.descricao}</option>
+    {loading ? (<LoadingSpinner />) : (
+      <div>
+        <div className={styles.novo}>
+            <Link href={`/trade/0`}>
+              <button className={styles.bottonnovo}>Criar Novo Trade</button>                      
+            </Link>
+            <select id='par_id' value={filter?.par_id} onChange={handleOnChange}>
+            <option key={0}  value={0}>{'----'}</option>
+            {pares.map((par : any) => ( 
+                <option key={par.id}  value={par.id}>{par.descricao}</option>
 
-              ))}                
-              </select> 
-            </div>
-
-            <div className={styles.check}>
-              <label htmlFor="website">Em ordem</label>
-              <input
-             
-              id="in_order"
-              type="checkbox"            
-              checked={filter?.in_order}
-              onChange={handleOnChangeInOrder}        
-              />    
-          </div>       
-
-            <div>
-                <table className={styles.table}>  
-                  <thead>
-                    <tr  className={styles.tr}>
-                      <th className={styles.th}>Quantidade</th>
-                      <th className={styles.th}>Valor Compra</th>                                            
-                      <th className={styles.th}>Valor Venda</th>                                            
-                      <th className={styles.th}>Ganho</th>
-                      <th className={styles.th}>Percentual de Ganho</th>                      
-                      <th className={styles.th}>Data Compra</th>
-                      <th className={styles.th}>Data Venda</th>
-                      
-                      <th className={styles.th}>Par</th>                                                                                        
-                      <th className={styles.th}>Update</th>
-                    </tr>
-                  </thead>  
-                  
-                  <tbody>
-
-                    {trades.map((trade) => (            
-                        <tr key={trade.id} className={styles.tr}>
-                          <td className={styles.td}>{trade.amount}</td>
-                          <td className={styles.td}>{trade.unitary_value_buy}</td>
-                                                    
-                          <td className={styles.td}>{trade.unitary_value_sell}</td>
-                          
-                          
-                          <td className={styles.td}>{trade.gain}</td>
-                          <td className={styles.td}>{trade.percent_gain}</td>
-                          <td className={styles.td}>{trade.date_buy}</td>
-                          <td className={styles.td}>{trade.date_sell}</td>                          
-                          <td className={styles.td}>{trade.par_descricao}</td>
-                                                                                                                                  
-                          <td className={styles.td}>
-                            <Link href={`/trade/${trade.id}`}>
-                              <a>Update</a>
-                            </Link> 
-                            <a href="#" onClick={() => _handleRemoveTrade(trade.id)}>
-                              {loading ? 'Gravando ...' : 'Remover'}
-                            </a> 
-                          </td>
-                        </tr>            
-                    ))}
-                  </tbody>
-                </table>  
-              </div>
-          </div>
-        )}            
+            ))}                
+            </select> 
+        </div>
+        <div className={styles.check}>
+          <label htmlFor="website">Em ordem</label>
+          <input
+          
+          id="in_order"
+          type="checkbox"            
+          checked={filter?.in_order}
+          onChange={handleOnChangeInOrder}        
+          />    
+      </div> 
+      
+      <div style={{ height: 400, width: '100%' }}>
+        <DataGrid
+          rows={trades}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+          
+        />
+      </div>
+    </div>
+    
+    )}                  
     </>
   )
 }
