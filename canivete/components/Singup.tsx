@@ -24,9 +24,9 @@ export default function SingUp() {
   return (
     <div className="row flex-center flex">
       <div className="col-6 form-widget">
-        <h1 className="header">Supabase + Next.js</h1>
+        <h1 className="header">Multiiii Ferramentas</h1>
         <p className="description">
-            Creates a new user.
+            Criar Novo Usuarrio
         </p>
         <div>
           <input

@@ -61,7 +61,7 @@ export default  function Trade (){
   let fil : IFilter = {
                         refresh : true,
                         par_id : 0,
-                        in_order : false };
+                        in_order : true };
   
 
 
@@ -195,14 +195,14 @@ export default  function Trade (){
 
 
   const columns: GridColDef[] = [    
-    { field: 'amount', headerName: 'Quantidade', width: 90, type: 'number' },
+    { field: 'amount', headerName: 'Quantidade', width: 90, type: 'text'},
     { field: 'unitary_value_buy', headerName: 'Vlr Compra', width: 90, type: 'number' },
     { field: 'unitary_value_sell', headerName: 'Vlr Venda', width: 85, type: 'number' },
-    { field: 'gain', headerName: 'Ganho', width: 70, type: 'number' },
+    { field: 'gain', headerName: 'Ganho', width: 90, type: 'text' },
     { field: 'percent_gain', headerName: '% Ganho', width: 70, type: 'number' },
     { field: 'date_buy', headerName: 'Compra', width: 100, type: 'date' },
     { field: 'date_sell', headerName: 'Venda', width: 100, type: 'date' },
-    { field: 'par_descricao', headerName: 'Moeda', width: 70, type: 'date' },
+    { field: 'par_descricao', headerName: 'Moeda', width: 100, type: 'text' },
     {
       field: "actionUpdate",
       width: 60,
@@ -231,7 +231,7 @@ export default  function Trade (){
   return (        
     <>
     {loading ? (<LoadingSpinner />) : (
-      <div>
+      <div style={{ padding: '20px'}}>
         <div className={styles.novo}>
             <Link href={`/trade/0`}>
               <button className={styles.bottonnovo}>Criar Novo Trade</button>                      
@@ -255,12 +255,13 @@ export default  function Trade (){
           />    
       </div> 
       
-      <div style={{ height: 400, width: '100%' }}>
+      <div style={{ height: '700px', width: '100%' }}>
         <DataGrid
           rows={trades}
           columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
+          // hideFooterPagination
+          pageSize={50}
+          rowsPerPageOptions={[500]}
           
         />
       </div>

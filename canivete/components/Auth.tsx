@@ -31,13 +31,11 @@ export default function Auth() {
 
   const handleLogin = async (email : string, password : string)  => {
     try {
-      setLoading(true)
-      let redirectTo : string;
-      redirectTo = 'www.google.com'
+      setLoading(true)            
       const { data, error } = await supabase.auth.signInWithPassword({ email: email, password: password })
       console.log(data)
       if (error) throw error
-      alert('Logged successfully!')
+      
     } catch (error : any) {
       alert(error.error_description || error.message)
     } finally {
@@ -53,9 +51,9 @@ export default function Auth() {
       (
         <div className="row flex-center flex">
       <div className="col-6 form-widget">
-        <h1 className="header">Supabase + Next.js</h1>
+        <h1 className="header">Multi ferramentas</h1>
         <p className="description">
-          Sign in via email and password
+          Email e Senha
         </p>
         <div>
           <input
@@ -84,7 +82,7 @@ export default function Auth() {
             className="button block"
             disabled={loading}
           >
-            <span>{loading ? 'Loading' : 'Login'}</span>
+            <span>{loading ? 'Carregando' : 'Login'}</span>
           </button>
         </div>
       </div>

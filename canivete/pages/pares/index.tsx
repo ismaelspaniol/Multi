@@ -66,30 +66,28 @@ export default  function Pares (){
   return (        
     <>
       {loading ? (<LoadingSpinner />) : (
-          <div>
-                <h1>Lista de Pares de Cripto:</h1>
-            <Link href={`/pares/add`}>
-                <button>Criar Novo Par</button>
+          <div className={styles.main}>
+    			<h1>Lista de Pares de Cripto:</h1>
+            	<Link href={`/pares/add`}>
+                	<button>Criar Novo Par</button>
 
-                      </Link>
-                  <ul className={styles.list}>
-                  {pares.map((par : any) => (
-                    <li key={par.id}>
-                      {par.descricao}   
-                      <Link href={`/pares/${par.id}`}>
-                        <a>Update</a>
-                      </Link>      
+            	</Link>
+            	<ul className={styles.list}>
+					{pares.map((par : any) => (
+					<li key={par.id}>
+						{par.descricao}   
+						<Link href={`/pares/${par.id}`}>
+							<a>Update</a>
+						</Link>      
 
-                      <a
-                        href="#"
-                        onClick={() => _handleRemovePar(par.id)}              
-                        >
-                        {loading ? 'Gravando ...' : 'Remover'}
-                      </a>     
-                    </li>
-                    
-                  ))}
-                  </ul>   
+						<a href="#"
+						onClick={() => _handleRemovePar(par.id)}>
+							{loading ? 'Gravando ...' : 'Remover'}
+						</a>     
+					</li>
+						
+					))}
+                </ul>   
             </div>
       )}   
        
