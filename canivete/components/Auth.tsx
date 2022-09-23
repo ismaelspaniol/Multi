@@ -12,14 +12,13 @@ export default function Auth() {
   const [hash, setHash] = useState(null);
 
 
-
   const forgotPassword = async (email : string) => {
     if (email) {
       try {
         setLoading(true)                 
-        const { data, error } = await supabase.auth.resetPasswordForEmail(email, {redirectTo: getBaseUrl()+"password-reset"})
+        const { data, error } = await supabase.auth.resetPasswordForEmail(email, {redirectTo: "http://localhost:3000/password-reset"}) //
         if (error) throw error
-        alert('Check your mail!') 
+        alert('Verifique seu email') 
       } catch (error : any) {
         alert(error.error_description || error.message)      
       }finally {
