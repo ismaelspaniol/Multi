@@ -4,6 +4,7 @@ import { createClient } from '@supabase/supabase-js'
 let supabaseUrl = '';
 let supabaseAnonKey = '';
 
+const base_url = process.env.NEXT_PUBLIC_URL_BASE
 const supabaseUrl_teste  = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseAnonKey_teste = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
@@ -16,6 +17,11 @@ if(supabaseAnonKey_teste !== undefined) {
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+
+export function getBaseUrl(){    
+   return base_url;
+}
+
 
 
 

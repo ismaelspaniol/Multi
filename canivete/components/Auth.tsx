@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { supabase } from '../utils/supabase'
+import { getBaseUrl, supabase } from '../utils/supabase'
 import Link from 'next/link'
 import  Singup  from '../components/Singup'
 
@@ -16,8 +16,8 @@ export default function Auth() {
   const forgotPassword = async (email : string) => {
     if (email) {
       try {
-        setLoading(true) 
-        const { data, error } = await supabase.auth.resetPasswordForEmail(email, {redirectTo: "http://localhost:3000/password-reset"})
+        setLoading(true)                 
+        const { data, error } = await supabase.auth.resetPasswordForEmail(email, {redirectTo: getBaseUrl()+"password-reset"})
         if (error) throw error
         alert('Check your mail!') 
       } catch (error : any) {
@@ -31,6 +31,10 @@ export default function Auth() {
 
   const handleLogin = async (email : string, password : string)  => {
     try {
+      getBaseUrl();
+
+
+
       setLoading(true)            
       const { data, error } = await supabase.auth.signInWithPassword({ email: email, password: password })
       console.log(data)

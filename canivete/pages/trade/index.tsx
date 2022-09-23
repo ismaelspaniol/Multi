@@ -11,6 +11,9 @@ import Button from '@mui/material/Button';
 
 import { GridApi } from '@mui/x-data-grid-pro';
 import { GridCellParams } from '@mui/x-data-grid-pro';
+
+import Box from '@mui/material/Box';
+
 // import { GridApi } from '@mui/x-data-grid-premium';
 interface IFilter {
   refresh : boolean,
@@ -195,7 +198,7 @@ export default  function Trade (){
 
 
   const columns: GridColDef[] = [    
-    { field: 'amount', headerName: 'Quantidade', width: 90, type: 'text'},
+    { field: 'amount', headerName: 'Quantidade', width: 90, type: 'text' },
     { field: 'unitary_value_buy', headerName: 'Vlr Compra', width: 90, type: 'number' },
     { field: 'unitary_value_sell', headerName: 'Vlr Venda', width: 85, type: 'number' },
     { field: 'gain', headerName: 'Ganho', width: 90, type: 'text' },
@@ -255,16 +258,14 @@ export default  function Trade (){
           />    
       </div> 
       
-      <div style={{ height: '700px', width: '100%' }}>
-        <DataGrid
+      <Box sx={{ height: '700px', width: '100%' }}>
+        <DataGrid style={{color: '#f2f2f2'}}
           rows={trades}
-          columns={columns}
-          // hideFooterPagination
+          columns={columns}          
           pageSize={50}
-          rowsPerPageOptions={[500]}
-          
+          rowsPerPageOptions={[500]}          
         />
-      </div>
+      </Box>
     </div>
     
     )}                  
