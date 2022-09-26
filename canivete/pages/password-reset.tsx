@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../utils/supabase";
+import { useRouter } from "next/router";
 
 function PasswordReset() {
   const [password, setPassword] = useState(''); 
+  const router = useRouter();
   
   const handleSubmit = async (e : any) => {
     e.preventDefault();
@@ -14,12 +16,13 @@ function PasswordReset() {
         if (error) {                  
           alert(error.message);
         } else if (!error) {            
-            alert("Password Changed");          
+            alert("Senha alterada"); 
+            router.push("/");           
         }
       
     } catch (error) {            
       console.log(error)
-      alert("Sorry Error occured");
+      alert("Ocorreu um erro");
     }
   };
 
@@ -30,7 +33,7 @@ function PasswordReset() {
           type="password"
           required
           value={password}
-          placeholder="Please enter your Password"
+          placeholder="Por favor informe sua senha"
           onChange={(e) => setPassword(e.target.value)}
         />
 

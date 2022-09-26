@@ -1,9 +1,10 @@
 
 
-
 .container {
-  display: flex;
-  flex-direction: column;
+  height: 500px; 
+  /* width: '200px'; */
+  margin-bottom: 30px;
+  
 }
 
 .novo {
@@ -17,47 +18,9 @@
 
 }
 
-.table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-  }
-  
-.td, .th {
-    border: 1px solid #6e6e6e;
-    text-align: left;
-    padding: 8px;
-  }
-  
-.tr:nth-child(even) {
-    background-color: #290d0d;
-  }
-
-
-  .table a {    
-    color: #f2f2f2;
-    text-align: center;
-    padding: 10px 16px;
-    text-decoration: none;
-    font-size: 15px;
-  }
-
-  .table a:hover {
-    background-color: #ddd;
-    color: black;
-  }
 
 
   /* tela de edicao */
-
-  .box{
-    display: flex;
-    flex-direction: column;        
-    align-items: left;    
-    padding: 20px;
-    margin-left: 25%;
-    margin-right: 25%;
-  }
 
   .group {
     display: flex;

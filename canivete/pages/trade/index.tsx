@@ -6,10 +6,8 @@ import styles from '../../styles/Trade.module.css'
 import { Itrade } from "../../abstracts/interfaces/trade"
 import LoadingSpinner from "../../components/LoadingSpinner"
 
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import Button from '@mui/material/Button';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
-import { GridApi } from '@mui/x-data-grid-pro';
 import { GridCellParams } from '@mui/x-data-grid-pro';
 
 import Box from '@mui/material/Box';
@@ -234,7 +232,7 @@ export default  function Trade (){
   return (        
     <>
     {loading ? (<LoadingSpinner />) : (
-      <div style={{ padding: '20px'}}>
+       <div className={styles.container}>
         <div className={styles.novo}>
             <Link href={`/trade/0`}>
               <button className={styles.bottonnovo}>Criar Novo Trade</button>                      
@@ -256,19 +254,16 @@ export default  function Trade (){
           checked={filter?.in_order}
           onChange={handleOnChangeInOrder}        
           />    
-      </div> 
-      
-      <Box sx={{ height: '700px', width: '100%' }}>
-        <DataGrid style={{color: '#f2f2f2'}}
+      </div>             
+        <DataGrid 
           rows={trades}
           columns={columns}          
           pageSize={50}
           rowsPerPageOptions={[500]}          
-        />
-      </Box>
-    </div>
+        />      
+      </div> 
     
-    )}                  
+     )}                  
     </>
   )
 }

@@ -5,51 +5,63 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../utils/supabase'
 import Auth from '../components/Auth'
 import {Session} from '@supabase/gotrue-js/src/lib/types'
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import LoadingSpinner from '../components/LoadingSpinner'
 
+
+
+const theme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 function MyApp({ Component, pageProps } : any) {  
-  const [session, setSession] = useState<Session | null>(null)
+  const [session, setSession] = useState<Session | null | string>('x')
+  const [loading, setLoading] = useState(false)
   
   useEffect(() => {
-    let mounted = true  
+    setLoading(true)             
     async function getInitialSession() {
-      const { data: { session }, } = await supabase.auth.getSession()
-      if (mounted) {
-        if (session) {
-          
-          setSession(session)
-        }    
-      }
+      const { data: { session }, } = await supabase.auth.getSession()    
+      if (session) {                    
+        setSession(session)          
+      }    
+  
       
     }
+    getInitialSession()       
 
-    getInitialSession()
-    
-    
-    const { subscription }:any = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        
+    const { subscription }:any = supabase.auth.onAuthStateChange( (_event, session) => {     
         setSession(session)
+        if (_event == 'SIGNED_OUT'){
+          subscription?.unsubscribe()     
+        }                
       }
     )
-
-    return () => {
-      mounted = false
-      
-      subscription?.unsubscribe()
-    }
+    setLoading(false)
+            
   }, [])
 
   return (
     <>
-      {!session ? (
-        <Auth />        
-      ) : (
-
-        <MainContainer>
-          <Component {...pageProps} />
-        </MainContainer>
-      )}  
+      {loading ? (<LoadingSpinner />) : (
+        !session ? (
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Auth />        
+          </ThemeProvider>
+        ) : (
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <MainContainer>
+              <Component {...pageProps} />
+            </MainContainer>
+          </ThemeProvider>
+        ) 
+      )}
+      
       
     </>
   
