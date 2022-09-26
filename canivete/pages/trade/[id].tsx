@@ -115,7 +115,7 @@ export default  function Edit (){
 
   return (        
     <>
-        <div className={styles.box}>
+        <div >
           <div  className={styles.group}>      
               <label htmlFor="website">Par</label>    
               <select className={styles.fields} id='par_id' value={trade?.par_id} onChange={handleOnChange}>

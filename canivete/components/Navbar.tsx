@@ -27,12 +27,13 @@ interface Props {
 
 const drawerWidth = 240;
 const navItems = [
-  {'caption':'Home',
-   'link':'/'}, 
   {'caption':'Pares',
    'link':'/pares'}, 
   {'caption':'trade',
-   'link':'/trade'}];
+   'link':'/trade'},
+   {'caption':'Perfil',
+   'link':'/profile'}
+  ];
 
 
 export default function Navbar(props: Props) {
@@ -46,7 +47,9 @@ export default function Navbar(props: Props) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
+      <Button href={'/'}  sx={{ color: '#fff' }}>
+              Home
+            </Button>
       </Typography>
       <Divider />
       <List>
@@ -82,7 +85,9 @@ export default function Navbar(props: Props) {
           component="div"
           sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
         >
-          MUI
+          <Button href={'/'}  sx={{ color: '#fff' }}>
+              Home
+            </Button>
         </Typography>
         <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
           {navItems.map((item) => (

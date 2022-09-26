@@ -13,7 +13,8 @@ export default function MainContainer({children} : any){
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          alignItems: 'center',          
+          alignItems: 'center',      
+          height: '100'    
         }}>
             <Navbar />
             <Box   component="main"  sx={{ p: 2, width:'100%' }}>
