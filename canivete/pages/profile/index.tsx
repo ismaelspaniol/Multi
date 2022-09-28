@@ -48,7 +48,7 @@ export default function Profile(){
       };
 
 
-      async function _handleAddOrInsertProfile() {        
+      async function _handleAddOrUpdateProfile() {        
         try {
                       
           setLoading(true)                                        
@@ -68,31 +68,31 @@ export default function Profile(){
       }
     return (
        <>
-       {loadingPage ? (<LoadingSpinner />) : (
-          <div className={styles.box}>
-            <div className={styles.group}>
-                <label htmlFor="website">Nome Completo</label>
-                <input
-                className={styles.fields}
-                id="name"
-                type="text"
-                step="any"
-                value={profile?.name}        
-                onChange={handleOnChange}        
-                />    
-            </div >
-          <div >
-              <button   
-              className={styles.save}           
-              onClick={() => _handleAddOrInsertProfile()}
-              disabled={loading}
-              >
-              {loading ? 'Gravando ...' : 'Salvar'}
-              </button>
-          </div>
-        </div>
-       
-       )}
+        {loadingPage ? (<LoadingSpinner />) : (
+            <div className={styles.box}>
+              <div className={styles.group}>
+                  <label htmlFor="website">Nome Completo</label>
+                  <input
+                  className={styles.fields}
+                  id="name"
+                  type="text"
+                  step="any"
+                  value={profile?.name}        
+                  onChange={handleOnChange}        
+                  />    
+              </div >
+              <div >
+                <button   
+                className={styles.save}           
+                onClick={() => _handleAddOrUpdateProfile()}
+                disabled={loading}
+                >
+                {loading ? 'Gravando ...' : 'Salvar'}
+                </button>
+              </div>
+            </div>
+        
+        )}
        
        </>
         

@@ -32,7 +32,9 @@ const navItems = [
   {'caption':'trade',
    'link':'/trade'},
    {'caption':'Perfil',
-   'link':'/profile'}
+   'link':'/profile'},
+   {'caption':'Fichas',
+   'link':'/files'}
   ];
 
 
