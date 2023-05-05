@@ -82,8 +82,14 @@ export default  function Trade (){
         let { data, error } = await supabase.from('par').select('*')
          .eq('user_id', user.id).order('date_add',{ascending: false})
           
+          debugger 
           
           setPares(data) 
+
+          pares.map((par : any) => ( 
+            console.log(par.descricao)
+ 
+         ));
         if (error) {
           throw error
         }
@@ -133,6 +139,7 @@ export default  function Trade (){
             let t = new TradesObject(o)
             trades.push(t)
             }) 
+            
             console.log(trades)
             
             setTrades(trades) 
@@ -254,13 +261,18 @@ export default  function Trade (){
           checked={filter?.in_order}
           onChange={handleOnChangeInOrder}        
           />    
+          
+          
+          
       </div>             
         <DataGrid 
           rows={trades}
           columns={columns}          
           pageSize={50}
           rowsPerPageOptions={[500]}          
-        />      
+        />
+
+                           
       </div> 
     
      )}                  

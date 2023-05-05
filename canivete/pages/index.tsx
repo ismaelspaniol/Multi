@@ -12,9 +12,9 @@ export default function Home() {
       </Head>
 
       <Typography component={'span'} >
-        <h1> Bem vindo ao controle de trade</h1>
+        <h1> Bem vindo ao controle de trade Igor Teste</h1>
         <Image src="/city.jpg" width="400px" height="300px" alt="Cidade a noite" />  
-         <p>Bem vindo ao controle de trade assda asd a asda asda  asdasd asda  asad as as asdasd Bem vindo ao controle de trade assda asd a asda asda  asdasd asda  asad as as asdasd Bem vindo ao controle de trade assda asd a asda asda  asdasd asda  asad as as asdasd</p>   
+         <p>Bem vindo ao controle de trade </p>   
        
       </Typography>               
     </>
